@@ -37,7 +37,7 @@ class VoiceController extends MyTicker {
   final Function() onPlaying;
   final Function() onPause;
   final Function(Object)? onError;
-  final double noiseWidth = 50.5.w();
+  final double noiseWidth;
   late AnimationController animController;
   final AudioPlayer _player = AudioPlayer();
   final bool isFile;
@@ -86,7 +86,8 @@ class VoiceController extends MyTicker {
     required this.onPlaying,
     this.onError,
     this.randoms,
-  }) {
+    double? widthNoise,
+  }) : noiseWidth = widthNoise ?? 50.5.w() {
     if (randoms?.isEmpty ?? true) _setRandoms();
     animController = AnimationController(
       vsync: this,
