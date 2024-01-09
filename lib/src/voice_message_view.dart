@@ -171,7 +171,7 @@ class VoiceMessageView extends StatelessWidget {
                   data: newTHeme,
                   child: Slider(
                     value: controller.currentMillSeconds,
-                    max: controller.maxMillSeconds,
+                    max: controller.maxMillSeconds ?? 0,
                     onChangeStart: controller.onChangeSliderStart,
                     onChanged: controller.onChanging,
                     onChangeEnd: (value) {
