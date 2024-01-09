@@ -29,9 +29,9 @@ extension DurationExtension on Duration {
     return "$min:$sec";
   }
 
-  String get formattedTimeCeil {
+  String get formattedTimeFloor {
     int sec = inSeconds % 60;
-    int min = (inSeconds / 60).ceil();
+    int min = (inSeconds / 60).floor();
     return "${min.toString().appendZeroPrefix}:${sec.toString().appendZeroPrefix}";
   }
 }
