@@ -23,7 +23,7 @@ extension StringExtension on String {
 extension DurationExtension on Duration {
   String get formattedTime {
     final minDur = inMinutes;
-    final secDur = ((inMilliseconds % 6000) / 1000).ceil();
+    final secDur = ((inMilliseconds % 60000) / 1000).ceil();
     String min = minDur < 10 ? "0$minDur" : minDur.toString();
     String sec = secDur < 10 ? "0$secDur" : secDur.toString();
     return "$min:$sec";
