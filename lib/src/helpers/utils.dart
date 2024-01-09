@@ -22,8 +22,10 @@ extension StringExtension on String {
 /// This extention help us to make widget responsive.
 extension DurationExtension on Duration {
   String get formattedTime {
-    int sec = inSeconds % 60;
-    int min = (inSeconds / 60).ceil();
-    return "${min.toString().appendZeroPrefix}:${sec.toString().appendZeroPrefix}";
+    final minDur = inMinutes;
+    final secDur = ((inMilliseconds % 60) / 1000).ceil();
+    String min = minDur < 10 ? "0$minDur" : minDur.toString();
+    String sec = secDur < 10 ? "0$secDur" : secDur.toString();
+    return "$min:$sec";
   }
 }
