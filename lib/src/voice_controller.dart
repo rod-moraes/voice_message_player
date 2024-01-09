@@ -76,7 +76,7 @@ class VoiceController extends MyTicker {
   Duration get maxDuration =>
       maxDurationExternal ?? const Duration(seconds: 3600);
 
-  double? get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
+  double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
 
   StreamSubscription<FileResponse>? downloadStreamSubscription;
 
@@ -145,10 +145,10 @@ class VoiceController extends MyTicker {
     positionStream = _player.positionStream.listen((Duration p) async {
       if (!isDownloading) currentDuration = p;
 
-      final value = (noiseWidth * currentMillSeconds) / (maxMillSeconds ?? 1);
+      final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
       animController.value = value;
       _updateUi();
-      if (maxMillSeconds == null || p.inMilliseconds >= (maxMillSeconds ?? 0)) {
+      if (p.inMilliseconds >= maxMillSeconds) {
         await _player.stop();
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
@@ -287,7 +287,7 @@ class VoiceController extends MyTicker {
   /// Changes the speed of the voice playback.
   void onChanging(double d) {
     currentDuration = Duration(milliseconds: d.toInt());
-    final value = (noiseWidth * d) / (maxMillSeconds ?? 1);
+    final value = (noiseWidth * d) / maxMillSeconds;
     animController.value = value;
     _updateUi();
   }
