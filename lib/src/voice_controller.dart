@@ -31,7 +31,7 @@ import 'package:voice_message_package/src/helpers/utils.dart';
 ///
 class VoiceController extends MyTicker {
   final String audioSrc;
-  Duration? maxDuration;
+  Duration? maxDurationExternal;
   Duration currentDuration = Duration.zero;
   final Function() onComplete;
   final Function() onPlaying;
@@ -47,6 +47,7 @@ class VoiceController extends MyTicker {
   List<double>? randoms;
   StreamSubscription? positionStream;
   StreamSubscription? playerStateStream;
+
   double? downloadProgress = 0;
 
   /// Gets the current playback position of the voice.
@@ -72,14 +73,17 @@ class VoiceController extends MyTicker {
 
   bool get isPause => playStatus == PlayStatus.pause;
 
-  double? get maxMillSeconds => maxDuration?.inMilliseconds.toDouble();
+  Duration get maxDuration =>
+      maxDurationExternal ?? const Duration(seconds: 3600);
+
+  double? get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
 
   StreamSubscription<FileResponse>? downloadStreamSubscription;
 
   /// Creates a new [VoiceController] instance.
   VoiceController({
     required this.audioSrc,
-    this.maxDuration,
+    this.maxDurationExternal,
     required this.isFile,
     required this.onComplete,
     required this.onPause,
@@ -291,13 +295,13 @@ class VoiceController extends MyTicker {
   ///
   String get remindingTime {
     if (currentDuration == Duration.zero) {
-      return maxDuration?.formattedTime ?? "00:00";
+      return maxDurationExternal?.formattedTime ?? "00:00";
     }
     if (isSeeking || isPause) {
       return currentDuration.formattedTimeFloor;
     }
     if (isInit) {
-      return maxDuration?.formattedTime ?? "00:00";
+      return maxDurationExternal?.formattedTime ?? "00:00";
     }
     return currentDuration.formattedTimeFloor;
   }
@@ -309,7 +313,7 @@ class VoiceController extends MyTicker {
       final maxDuration =
           isFile ? await _player.setFilePath(path) : await _player.setUrl(path);
       if (maxDuration != null) {
-        this.maxDuration = maxDuration;
+        maxDurationExternal = maxDuration;
         animController.duration = maxDuration;
       }
     } catch (err) {

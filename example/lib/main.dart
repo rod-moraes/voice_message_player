@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
                     controller: VoiceController(
                       audioSrc:
                           'https://dl.musichi.ir/1401/06/21/Ghors%202.mp3',
-                      maxDuration: const Duration(seconds: 10),
+                      maxDurationExternal: const Duration(seconds: 10),
                       isFile: false,
                       onComplete: () {
                         /// do something on complete
