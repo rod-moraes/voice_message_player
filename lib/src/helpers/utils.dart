@@ -23,7 +23,7 @@ extension StringExtension on String {
 extension DurationExtension on Duration {
   String get formattedTime {
     int sec = inSeconds % 60;
-    int min = (inSeconds / 60).floor();
+    int min = (inSeconds / 60).ceil();
     return "${min.toString().appendZeroPrefix}:${sec.toString().appendZeroPrefix}";
   }
 }
