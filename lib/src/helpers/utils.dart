@@ -28,4 +28,10 @@ extension DurationExtension on Duration {
     String sec = secDur < 10 ? "0$secDur" : secDur.toString();
     return "$min:$sec";
   }
+
+  String get formattedTimeCeil {
+    int sec = inSeconds % 60;
+    int min = (inSeconds / 60).ceil();
+    return "${min.toString().appendZeroPrefix}:${sec.toString().appendZeroPrefix}";
+  }
 }

@@ -294,12 +294,12 @@ class VoiceController extends MyTicker {
       return maxDuration.formattedTime;
     }
     if (isSeeking || isPause) {
-      return currentDuration.formattedTime;
+      return currentDuration.formattedTimeCeil;
     }
     if (isInit) {
       return maxDuration.formattedTime;
     }
-    return currentDuration.formattedTime;
+    return currentDuration.formattedTimeCeil;
   }
 
   /// Sets the maximum duration of the voice.
