@@ -31,6 +31,7 @@ class VoiceMessageView extends StatelessWidget {
       fontSize: 11,
       fontWeight: FontWeight.w500,
     ),
+    this.iconColor,
   }) : super(key: key);
 
   /// The controller for the voice message view.
@@ -39,8 +40,11 @@ class VoiceMessageView extends StatelessWidget {
   /// The background color of the voice message view.
   final Color backgroundColor;
 
-  ///
+  /// Circle Color
   final Color circlesColor;
+
+  /// Icon Color
+  final Color? iconColor;
 
   /// The color of the active slider.
   final Color activeSliderColor;
@@ -92,7 +96,12 @@ class VoiceMessageView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               /// play pause button
-              PlayPauseButton(controller: controller, color: color, size: size),
+              PlayPauseButton(
+                controller: controller,
+                color: color,
+                size: size,
+                iconColor: iconColor,
+              ),
 
               ///
               const SizedBox(width: 10),

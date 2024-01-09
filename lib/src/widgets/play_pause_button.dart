@@ -11,6 +11,7 @@ class PlayPauseButton extends StatelessWidget {
     required this.controller,
     required this.color,
     required this.size,
+    this.iconColor,
   });
 
   /// The size of the button.
@@ -21,6 +22,9 @@ class PlayPauseButton extends StatelessWidget {
 
   /// The color of the button.
   final Color color;
+
+  /// The color of the icon.
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) => InkWell(
@@ -40,6 +44,7 @@ class PlayPauseButton extends StatelessWidget {
           child: controller.isDownloading
               ? LoadingWidget(
                   progress: controller.downloadProgress,
+                  color: iconColor,
                   onClose: () {
                     controller.cancelDownload();
                   },
@@ -57,7 +62,7 @@ class PlayPauseButton extends StatelessWidget {
                           : Icons.play_arrow_rounded,
 
                   /// icon color
-                  color: Colors.white,
+                  color: iconColor ?? Colors.white,
                 ),
         ),
       );

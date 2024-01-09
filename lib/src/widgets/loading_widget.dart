@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatefulWidget {
   final double? progress;
+  final Color? color;
   final Function onClose;
 
   const LoadingWidget({
     Key? key,
     required this.progress,
+    this.color,
     required this.onClose,
   }) : super(key: key);
 
@@ -41,7 +43,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
                 padding: const EdgeInsets.all(4.0),
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: widget.color ?? Colors.white,
                   value: widget.progress ?? 0,
                 ),
               ),
@@ -50,9 +52,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
         ),
         Positioned(
           child: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: widget.color ?? Colors.white,
             ),
             onPressed: () => widget.onClose(),
           ),
