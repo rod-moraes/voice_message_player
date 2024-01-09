@@ -31,7 +31,7 @@ import 'package:voice_message_package/src/helpers/utils.dart';
 ///
 class VoiceController extends MyTicker {
   final String audioSrc;
-  late Duration maxDuration;
+  Duration? maxDuration;
   Duration currentDuration = Duration.zero;
   final Function() onComplete;
   final Function() onPlaying;
@@ -52,8 +52,8 @@ class VoiceController extends MyTicker {
   /// Gets the current playback position of the voice.
   double get currentMillSeconds {
     final c = currentDuration.inMilliseconds.toDouble();
-    if (c >= maxMillSeconds) {
-      return maxMillSeconds;
+    if (c >= (maxMillSeconds ?? 0)) {
+      return (maxMillSeconds ?? 0);
     }
     return c;
   }
@@ -72,14 +72,14 @@ class VoiceController extends MyTicker {
 
   bool get isPause => playStatus == PlayStatus.pause;
 
-  double get maxMillSeconds => maxDuration.inMilliseconds.toDouble();
+  double? get maxMillSeconds => maxDuration?.inMilliseconds.toDouble();
 
   StreamSubscription<FileResponse>? downloadStreamSubscription;
 
   /// Creates a new [VoiceController] instance.
   VoiceController({
     required this.audioSrc,
-    required this.maxDuration,
+    this.maxDuration,
     required this.isFile,
     required this.onComplete,
     required this.onPause,
@@ -141,10 +141,10 @@ class VoiceController extends MyTicker {
     positionStream = _player.positionStream.listen((Duration p) async {
       if (!isDownloading) currentDuration = p;
 
-      final value = (noiseWidth * currentMillSeconds) / maxMillSeconds;
+      final value = (noiseWidth * currentMillSeconds) / (maxMillSeconds ?? 1);
       animController.value = value;
       _updateUi();
-      if (p.inMilliseconds >= maxMillSeconds) {
+      if (maxMillSeconds == null || p.inMilliseconds >= (maxMillSeconds ?? 0)) {
         await _player.stop();
         currentDuration = Duration.zero;
         playStatus = PlayStatus.init;
@@ -283,7 +283,7 @@ class VoiceController extends MyTicker {
   /// Changes the speed of the voice playback.
   void onChanging(double d) {
     currentDuration = Duration(milliseconds: d.toInt());
-    final value = (noiseWidth * d) / maxMillSeconds;
+    final value = (noiseWidth * d) / (maxMillSeconds ?? 1);
     animController.value = value;
     _updateUi();
   }
@@ -291,13 +291,13 @@ class VoiceController extends MyTicker {
   ///
   String get remindingTime {
     if (currentDuration == Duration.zero) {
-      return maxDuration.formattedTime;
+      return maxDuration?.formattedTime ?? "00:00";
     }
     if (isSeeking || isPause) {
       return currentDuration.formattedTimeFloor;
     }
     if (isInit) {
-      return maxDuration.formattedTime;
+      return maxDuration?.formattedTime ?? "00:00";
     }
     return currentDuration.formattedTimeFloor;
   }
