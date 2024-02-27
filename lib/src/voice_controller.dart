@@ -53,8 +53,8 @@ class VoiceController extends MyTicker {
   /// Gets the current playback position of the voice.
   double get currentMillSeconds {
     final c = currentDuration.inMilliseconds.toDouble();
-    if (c >= (maxMillSeconds ?? 0)) {
-      return (maxMillSeconds ?? 0);
+    if (c >= (maxMillSeconds)) {
+      return (maxMillSeconds);
     }
     return c;
   }
@@ -295,13 +295,13 @@ class VoiceController extends MyTicker {
   ///
   String get remindingTime {
     if (currentDuration == Duration.zero) {
-      return maxDurationExternal?.formattedTime ?? "00:00";
+      return maxDurationExternal?.formattedTime ?? "--:--";
     }
     if (isSeeking || isPause) {
       return currentDuration.formattedTimeFloor;
     }
     if (isInit) {
-      return maxDurationExternal?.formattedTime ?? "00:00";
+      return maxDurationExternal?.formattedTime ?? "--:--";
     }
     return currentDuration.formattedTimeFloor;
   }
